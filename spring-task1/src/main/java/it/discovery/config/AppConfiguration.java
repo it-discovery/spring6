@@ -9,6 +9,7 @@ import it.discovery.service.BookServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.*;
+import org.springframework.core.env.Environment;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -20,8 +21,9 @@ public class AppConfiguration {
 
     @Bean(initMethod = "init", destroyMethod = "destroy")
     @Qualifier("db")
-    BookRepository dbBookRepository() {
-        return new DBBookRepository();
+    BookRepository dbBookRepository(Environment env) {
+        return new DBBookRepository(env.getRequiredProperty("db.server"),
+                env.getRequiredProperty("db.name"));
     }
 
     @Qualifier("xml")

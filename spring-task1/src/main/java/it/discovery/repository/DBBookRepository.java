@@ -2,8 +2,8 @@ package it.discovery.repository;
 
 import it.discovery.model.Book;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,16 +19,17 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 @Setter
 //@Repository
+@RequiredArgsConstructor
 public class DBBookRepository implements BookRepository {
 	private final Map<Integer, Book> books = new ConcurrentHashMap<>();
 
 	private int counter = 0;
 
-	@Value("${db.server}")
-	private String server = "localhost";
+	//@Value("${db.server}")
+	private final String server;
 
-	@Value("${db.name}")
-	private String db = "library";
+	//@Value("${db.name}")
+	private final String db;
 
 	//@PostConstruct
 	void init() {
