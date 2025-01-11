@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import it.discovery.model.Book;
+import it.discovery.repository.BookRepository;
 import it.discovery.repository.DBBookRepository;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MainBookService {
-	private final DBBookRepository repository = 
+	private final BookRepository repository =
 			new DBBookRepository();
 	
 	private boolean cachingEnabled;
