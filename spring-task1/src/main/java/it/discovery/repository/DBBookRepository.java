@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import it.discovery.model.Book;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Repository;
@@ -27,12 +29,14 @@ public class DBBookRepository implements BookRepository {
 	private String server = "localhost";
 
 	private String db = "library";
-	
-	public void init() {
+
+	@PostConstruct
+	void init() {
 		System.out.println("Started db repository with server:" + server + " and database: " + db );
 	}
 
-	public void destroy() {
+	@PreDestroy
+	void destroy() {
 		System.out.println("Shutting down repository ... ");
 	}
 	

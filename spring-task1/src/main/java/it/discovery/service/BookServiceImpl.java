@@ -7,19 +7,25 @@ import java.util.concurrent.ConcurrentHashMap;
 import it.discovery.model.Book;
 import it.discovery.repository.BookRepository;
 import it.discovery.repository.DBBookRepository;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Getter
 @Setter
-@Service
+@Named
 public class BookServiceImpl implements BookService {
 	private final BookRepository repository;
 	
 	private boolean cachingEnabled;
 	
 	private final Map<Integer, Book> bookCache = new ConcurrentHashMap<>();
+
+	@Inject
+	private List<BookRepository> repositories;
 
 	public BookServiceImpl(BookRepository repository) {
         this.repository = repository;
