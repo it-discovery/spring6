@@ -1,16 +1,14 @@
 package it.discovery.repository;
 
+import it.discovery.model.Book;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import it.discovery.model.Book;
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.stereotype.Repository;
 
 /**
  * Handles database-related book operations
@@ -26,8 +24,10 @@ public class DBBookRepository implements BookRepository {
 
 	private int counter = 0;
 
+	@Value("${db.server}")
 	private String server = "localhost";
 
+	@Value("${db.name}")
 	private String db = "library";
 
 	//@PostConstruct

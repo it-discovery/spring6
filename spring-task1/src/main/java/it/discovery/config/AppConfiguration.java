@@ -15,6 +15,7 @@ import java.util.concurrent.Executors;
 
 @Configuration(proxyBeanMethods = false)
 @ComponentScan("it.discovery.config.factory")
+@PropertySource("application.properties")
 public class AppConfiguration {
 
     @Bean(initMethod = "init", destroyMethod = "destroy")

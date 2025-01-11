@@ -3,6 +3,7 @@ package it.discovery.repository;
 import it.discovery.model.Book;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class XMLBookRepository implements BookRepository {
 
     private int counter = 0;
 
+    @Value("${xml.location}")
     private String xmlFile;
 
     void init() {
