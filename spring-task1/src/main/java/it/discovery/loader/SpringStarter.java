@@ -3,6 +3,7 @@ package it.discovery.loader;
 import java.util.Arrays;
 import java.util.List;
 
+import it.discovery.config.AppConfiguration;
 import it.discovery.repository.BookRepository;
 import it.discovery.service.BookService;
 import it.discovery.service.BookServiceImpl;
@@ -12,7 +13,7 @@ import it.discovery.model.Book;
 
 public class SpringStarter {
 	public static void main(String[] args) {
-		try (var context = new AnnotationConfigApplicationContext("it.discovery")) {
+		try (var context = new AnnotationConfigApplicationContext(AppConfiguration.class)) {
 			
 			var service = context.getBean(BookServiceImpl.class);
 			

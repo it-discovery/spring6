@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Getter
 @Setter
-@Named
+//@Named
 public class BookServiceImpl implements BookService {
 	private final BookRepository repository;
 	
@@ -24,7 +24,7 @@ public class BookServiceImpl implements BookService {
 	
 	private final Map<Integer, Book> bookCache = new ConcurrentHashMap<>();
 
-	@Inject
+	//@Inject
 	private List<BookRepository> repositories;
 
 	public BookServiceImpl(BookRepository repository) {

@@ -20,7 +20,7 @@ import org.springframework.stereotype.Repository;
  */
 @Getter
 @Setter
-@Repository
+//@Repository
 public class DBBookRepository implements BookRepository {
 	private final Map<Integer, Book> books = new ConcurrentHashMap<>();
 
@@ -30,12 +30,12 @@ public class DBBookRepository implements BookRepository {
 
 	private String db = "library";
 
-	@PostConstruct
+	//@PostConstruct
 	void init() {
 		System.out.println("Started db repository with server:" + server + " and database: " + db );
 	}
 
-	@PreDestroy
+	//@PreDestroy
 	void destroy() {
 		System.out.println("Shutting down repository ... ");
 	}
