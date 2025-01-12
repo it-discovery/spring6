@@ -4,7 +4,6 @@ import it.discovery.config.AppConfiguration;
 import it.discovery.model.Book;
 import it.discovery.proxy.MeasurementProxy;
 import it.discovery.service.BookService;
-import it.discovery.service.BookServiceImpl;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.lang.reflect.Proxy;
@@ -14,8 +13,8 @@ import java.util.List;
 public class SpringStarter {
     public static void main(String[] args) throws InterruptedException {
 		try (var context = new AnnotationConfigApplicationContext(AppConfiguration.class)) {
-			
-			var service = context.getBean(BookServiceImpl.class);
+
+			var service = context.getBean(BookService.class);
 
 			var handler = new MeasurementProxy(service);
 			var proxy = (BookService) Proxy.newProxyInstance(BookService.class.getClassLoader(),
@@ -34,7 +33,7 @@ public class SpringStarter {
 
 			System.out.println("Total bean count = " + context.getBeanDefinitionCount());
 			System.out.println("Spring bean names = " + Arrays.toString(context.getBeanDefinitionNames()));
-			System.out.println("Repositories = " +service.getRepositories());
+			//System.out.println("Repositories = " +service.getRepositories());
 
 			var book1 = context.getBean(Book.class);
 			var book2 = context.getBean(Book.class);

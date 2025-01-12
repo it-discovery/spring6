@@ -6,6 +6,7 @@ import it.discovery.repository.BookRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Async
     public void saveBook(Book book) {
         repository.saveBook(book);
 

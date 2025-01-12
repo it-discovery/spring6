@@ -20,6 +20,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.concurrent.Executors;
 @Configuration(proxyBeanMethods = false)
 @ComponentScan("it.discovery.config.factory")
 @PropertySource("application.properties")
+@EnableAsync
 public class AppConfiguration {
 
     public static class PersistenceConfiguration {
