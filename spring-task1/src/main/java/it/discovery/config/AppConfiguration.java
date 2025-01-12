@@ -14,7 +14,6 @@ import it.discovery.repository.DBBookRepository;
 import it.discovery.repository.XMLBookRepository;
 import it.discovery.service.BookService;
 import it.discovery.service.BookServiceImpl;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
@@ -38,7 +37,7 @@ public class AppConfiguration {
 
     public static class PersistenceConfiguration {
         @Bean(initMethod = "init", destroyMethod = "destroy")
-        @Qualifier("db")
+        //@Qualifier("db")
         @CurrentProfile(Profile.PROD)
         BookRepository dbBookRepository(Environment env) {
             return new DBBookRepository(env.getRequiredProperty("db.server"),
@@ -46,7 +45,7 @@ public class AppConfiguration {
         }
 
         @CurrentProfile(Profile.DEV)
-        @Qualifier("xml")
+        // @Qualifier("xml")
         @Bean(initMethod = "init", destroyMethod = "destroy")
             //@Primary
         BookRepository xmlBookRepository() {
