@@ -1,18 +1,14 @@
 package it.discovery.service;
 
+import it.discovery.logging.Logger;
+import it.discovery.model.Book;
+import it.discovery.repository.BookRepository;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import it.discovery.model.Book;
-import it.discovery.repository.BookRepository;
-import it.discovery.repository.DBBookRepository;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Getter
 @Setter
@@ -27,8 +23,11 @@ public class BookServiceImpl implements BookService {
 	//@Inject
 	private List<BookRepository> repositories;
 
-	public BookServiceImpl(BookRepository repository) {
+	private final List<Logger> loggers;
+
+	public BookServiceImpl(BookRepository repository, List<Logger> loggers) {
         this.repository = repository;
+		this.loggers = loggers;
         System.out.println("Using " + repository.getClass().getSimpleName() + " repository");
 	}
 	
@@ -39,6 +38,7 @@ public class BookServiceImpl implements BookService {
 		if(cachingEnabled) {
 			bookCache.put(book.getId(), book);
 		}
+		loggers.forEach(logger -> logger.log("Book saved: " + book));
 	}
 	
 	@Override
