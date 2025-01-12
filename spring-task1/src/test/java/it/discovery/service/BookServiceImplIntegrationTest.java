@@ -1,23 +1,30 @@
 package it.discovery.service;
 
 import it.discovery.config.AppConfiguration;
+import it.discovery.event.LogEvent;
 import it.discovery.model.Book;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.PayloadApplicationEvent;
+import org.springframework.test.context.event.ApplicationEvents;
+import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig(AppConfiguration.class)
+@RecordApplicationEvents
 class BookServiceImplIntegrationTest {
 
     @Autowired
     BookService bookService;
+
+    @Autowired
+    ApplicationEvents events;
 
     @Test
     void findBookById_idCorrect_success() {
@@ -35,5 +42,10 @@ class BookServiceImplIntegrationTest {
         var book2 = bookService.findBookById(book.getId());
         assertNotNull(book2);
         assertSame(book, book2);
+
+        var logEventCount = events.stream().filter(event ->
+                event instanceof PayloadApplicationEvent<?> payloadEvent &&
+                        payloadEvent.getPayload() instanceof LogEvent).count();
+        assertEquals(1, logEventCount);
     }
 }
