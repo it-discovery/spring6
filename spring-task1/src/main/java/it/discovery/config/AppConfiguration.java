@@ -1,6 +1,7 @@
 package it.discovery.config;
 
 import it.discovery.event.EventBus;
+import it.discovery.job.LibraryAlarmJob;
 import it.discovery.logging.ConsoleLogger;
 import it.discovery.logging.FileLogger;
 import it.discovery.logging.Logger;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -47,7 +49,8 @@ public class AppConfiguration {
         }
     }
 
-    @Bean(bootstrap = Bean.Bootstrap.BACKGROUND)
+    @Bean
+//(bootstrap = Bean.Bootstrap.BACKGROUND)
     BookService bookService(BookRepository bookRepository, ApplicationEventPublisher publisher) {
         return new BookServiceImpl(bookRepository, publisher);
     }
@@ -81,6 +84,14 @@ public class AppConfiguration {
         @Bean
         EventBus eventBus(List<Logger> loggers) {
             return new EventBus(loggers);
+        }
+    }
+
+    @EnableScheduling
+    static class JobConfiguration {
+        @Bean
+        LibraryAlarmJob libraryAlarmJob(BookService bookService) {
+            return new LibraryAlarmJob(bookService);
         }
     }
 }
