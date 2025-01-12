@@ -1,29 +1,33 @@
 package it.discovery.loader;
 
-import java.util.Arrays;
-import java.util.List;
-
 import it.discovery.config.AppConfiguration;
-import it.discovery.repository.BookRepository;
+import it.discovery.model.Book;
+import it.discovery.proxy.MeasurementProxy;
 import it.discovery.service.BookService;
 import it.discovery.service.BookServiceImpl;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import it.discovery.model.Book;
+import java.lang.reflect.Proxy;
+import java.util.Arrays;
+import java.util.List;
 
 public class SpringStarter {
 	public static void main(String[] args) {
 		try (var context = new AnnotationConfigApplicationContext(AppConfiguration.class)) {
 			
 			var service = context.getBean(BookServiceImpl.class);
+
+			var handler = new MeasurementProxy(service);
+			var proxy = (BookService) Proxy.newProxyInstance(BookService.class.getClassLoader(),
+					new Class[]{BookService.class}, handler);
 			
 			Book book = new Book();
 			book.setName("Introduction into Spring 6");
 			book.setPages(100);
 			book.setYear(2023);
-			service.saveBook(book);
+			proxy.saveBook(book);
 
-			List<Book> books = service.findBooks();
+			List<Book> books = proxy.findBooks();
 			System.out.println(books);
 
 			System.out.println("Total bean count = " + context.getBeanDefinitionCount());
