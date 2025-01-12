@@ -11,5 +11,5 @@ public interface BookService {
 
     List<Book> findBooks();
 
-    boolean isCachingEnabled();
+    //boolean isCachingEnabled();
 }

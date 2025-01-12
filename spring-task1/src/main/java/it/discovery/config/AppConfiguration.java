@@ -1,6 +1,8 @@
 package it.discovery.config;
 
 import it.discovery.bpp.CustomInitBeanPostProcessor;
+import it.discovery.cache.CacheStorage;
+import it.discovery.cache.SimpleCacheStorage;
 import it.discovery.event.EventBus;
 import it.discovery.job.LibraryAlarmJob;
 import it.discovery.logging.ConsoleLogger;
@@ -55,8 +57,9 @@ public class AppConfiguration {
 
     @Bean
 //(bootstrap = Bean.Bootstrap.BACKGROUND)
-    BookService bookService(BookRepository bookRepository, ApplicationEventPublisher publisher) {
-        return new BookServiceImpl(bookRepository, publisher);
+    BookService bookService(BookRepository bookRepository, ApplicationEventPublisher publisher,
+                            CacheStorage<Integer, Book> cacheStorage) {
+        return new BookServiceImpl(bookRepository, publisher, cacheStorage);
     }
 
     @Bean
@@ -104,5 +107,13 @@ public class AppConfiguration {
         BeanPostProcessor initProcessor(ApplicationContext context) {
             return new CustomInitBeanPostProcessor(context);
         }
+    }
+
+    static class CacheConfiguration {
+        @Bean
+        CacheStorage<Integer, Book> cacheStorage() {
+            return new SimpleCacheStorage<>();
+        }
+        //TODO add conditional usage of noop-cache
     }
 }
