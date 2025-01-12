@@ -1,5 +1,6 @@
 package it.discovery.config;
 
+import it.discovery.bpp.CustomInitBeanPostProcessor;
 import it.discovery.event.EventBus;
 import it.discovery.job.LibraryAlarmJob;
 import it.discovery.logging.ConsoleLogger;
@@ -15,6 +16,8 @@ import it.discovery.service.BookService;
 import it.discovery.service.BookServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.*;
 import org.springframework.core.Ordered;
@@ -94,6 +97,13 @@ public class AppConfiguration {
         @Bean
         LibraryAlarmJob libraryAlarmJob(BookService bookService) {
             return new LibraryAlarmJob(bookService);
+        }
+    }
+
+    static class BPPConfiguration {
+        @Bean
+        BeanPostProcessor initProcessor(ApplicationContext context) {
+            return new CustomInitBeanPostProcessor(context);
         }
     }
 }

@@ -1,10 +1,12 @@
 package it.discovery.service;
 
+import it.discovery.bpp.Init;
 import it.discovery.event.LogEvent;
 import it.discovery.model.Book;
 import it.discovery.repository.BookRepository;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Async;
 
@@ -31,6 +33,11 @@ public class BookServiceImpl implements BookService {
         this.repository = repository;
         this.publisher = publisher;
         System.out.println("Using " + repository.getClass().getSimpleName() + " repository");
+    }
+
+    @Init
+    void setup(ApplicationContext context) {
+        System.out.println("Custom service initialization with context: " + context);
     }
 
     @Override

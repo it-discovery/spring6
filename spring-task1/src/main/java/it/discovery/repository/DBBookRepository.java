@@ -1,9 +1,11 @@
 package it.discovery.repository;
 
+import it.discovery.bpp.Init;
 import it.discovery.model.Book;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.context.ApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,11 @@ public class DBBookRepository implements BookRepository {
 
 	//@Value("${db.name}")
 	private final String db;
+
+	@Init
+	void setup(ApplicationContext context) {
+		System.out.println("Custom repository initialization with context: " + context);
+	}
 
 	//@PostConstruct
 	void init() {
