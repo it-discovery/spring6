@@ -4,8 +4,9 @@ import it.discovery.config.AppConfiguration;
 import it.discovery.model.Book;
 import it.discovery.repository.BookRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.bean.override.convention.TestBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -16,11 +17,16 @@ import static org.mockito.Mockito.when;
 @SpringJUnitConfig(AppConfiguration.class)
 class BookServiceImplTest {
 
-    @MockitoBean
+    //@MockitoBean
+    @TestBean
     BookRepository bookRepository;
 
     @Autowired
     BookService bookService;
+
+    static BookRepository bookRepository() {
+        return Mockito.mock(BookRepository.class);
+    }
 
     @Test
     void findBookById_idCorrect_success() {
